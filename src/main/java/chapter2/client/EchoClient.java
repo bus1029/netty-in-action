@@ -21,7 +21,7 @@ public class EchoClient {
     this.port = port;
   }
 
-  public void start(String inputHost, int inputPort) throws InterruptedException {
+  public static void start(String inputHost, int inputPort) throws InterruptedException {
     String ip = inputHost;
     if (isInvalidIp(ip)) {
       log.error("Invalid Ip address[{}], ip was set to default ip(127.0.0.1).", inputHost);
@@ -30,18 +30,18 @@ public class EchoClient {
 
     int innerPort = inputPort;
     if (isInvalidPort(innerPort)) {
-      log.error("Invalid port[{}], port was set to default port(8888).", innerPort);
-      innerPort = 8888;
+      log.error("Invalid port[{}], port was set to default port(5556).", innerPort);
+      innerPort = 5556;
     }
 
     new EchoClient(ip, innerPort).start();
   }
 
-  private boolean isInvalidPort(int port) {
+  private static boolean isInvalidPort(int port) {
     return port < 0 || port > 65535;
   }
 
-  private boolean isInvalidIp(String ip) {
+  private static boolean isInvalidIp(String ip) {
     String pattern = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
     return ip.matches(pattern);
   }
@@ -66,5 +66,9 @@ public class EchoClient {
     } finally {
       eventLoopGroup.shutdownGracefully().sync();
     }
+  }
+
+  public static void main(String[] args) throws InterruptedException {
+    EchoClient.start("127.0.0.1", 5556);
   }
 }

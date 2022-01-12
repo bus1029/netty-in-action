@@ -19,16 +19,16 @@ public class EchoServer {
     this.port = port;
   }
 
-  public void start(int input) throws InterruptedException {
+  public static void start(int input) throws InterruptedException {
     int inputPort = input;
     if (isInvalidPort(inputPort)) {
-      log.error("Invalid port[{}], port was set to default port: 5556", port);
+      log.error("Invalid port[{}], port was set to default port: 5556", inputPort);
       inputPort = 5556;
     }
     new EchoServer(inputPort).start();
   }
 
-  private boolean isInvalidPort(int port) {
+  private static boolean isInvalidPort(int port) {
     return port < 0 || port > 65535;
   }
 
@@ -58,6 +58,9 @@ public class EchoServer {
       // 생성된 스레드들을 포함해서 모든 자원들을 해제한다
       eventLoopGroup.shutdownGracefully();
     }
+  }
 
+  public static void main(String[] args) throws InterruptedException {
+    EchoServer.start(5556);
   }
 }
